@@ -11,10 +11,14 @@
             "id": "1c774174257e0737",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "_posts/2025-08-16-cve-2022-22980-code-review-to-exploit-path.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "Nova aba"
+              "title": "2025-08-16-cve-2022-22980-code-review-to-exploit-path"
             }
           }
         ]

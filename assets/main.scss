@@ -1,0 +1,53 @@
+--- --- @import "minima";
+
+/* Global tweaks */
+:root {
+    --brand: #0ea5e9;
+    /* tweak your accent */
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Header brand color */
+.site-title,
+.site-title:visited {
+    color: var(--brand);
+}
+
+/* Post cards spacing on home */
+.home .post-list>li {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid #eee;
+}
+
+/* Code blocks readability */
+pre,
+code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+pre {
+    padding: 0.75rem;
+    border-radius: 8px;
+}
+
+/* Tag cloud */
+.tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    list-style: none;
+    padding: 0;
+}
+
+.tag-cloud a {
+    padding: .25rem .5rem;
+    border: 1px solid #ddd;
+    border-radius: 999px;
+}
