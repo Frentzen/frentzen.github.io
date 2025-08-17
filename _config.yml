@@ -1,8 +1,1 @@
-title: "YOUR SITE TITLE"
-description: "SHORT DESCRIPTION"
-theme: minima
-plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
-url: "https://YOUR_USERNAME.github.io"
-baseurl: ""   # keep "" for user site; set to "/REPO_NAME" for project site
+C:\Users\frent\gh-site\_config.yml
