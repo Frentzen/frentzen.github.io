@@ -90,6 +90,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "_posts/2025-08-17-cve-2022-22980-code-review-to-exploit-path.md.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -99,7 +100,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks"
+              "title": "Links inversos para 2025-08-17-cve-2022-22980-code-review-to-exploit-path.md"
             }
           },
           {
@@ -108,11 +109,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "_posts/2025-08-17-cve-2022-22980-code-review-to-exploit-path.md.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Links de saída"
+              "title": "Links de saída para 2025-08-17-cve-2022-22980-code-review-to-exploit-path.md"
             }
           },
           {
@@ -136,13 +138,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Bem-vindo.md",
+                "file": "_posts/2025-08-17-cve-2022-22980-code-review-to-exploit-path.md.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Sumário de Bem-vindo"
+              "title": "Sumário de 2025-08-17-cve-2022-22980-code-review-to-exploit-path.md"
             }
           }
         ]
@@ -159,11 +161,18 @@
       "canvas:Criar novo canvas": false,
       "daily-notes:Abrir a nota de hoje": false,
       "templates:Inserir modelo": false,
-      "command-palette:Abrir paleta de comandos": false
+      "command-palette:Abrir paleta de comandos": false,
+      "obsidian-git:Open Git source control": false
     }
   },
-  "active": "684d6a2d80635ce3",
+  "active": "1c774174257e0737",
   "lastOpenFiles": [
-    "Bem-vindo.md"
+    "_posts/2025-08-16-cve-2022-22980-code-review-to-exploit-path.md.md",
+    "_posts/2025-08-16-hello-world.md",
+    "Bem-vindo.md",
+    "_posts/2025-08-17-hello.md",
+    "index.md",
+    "_config.yml",
+    "_posts"
   ]
 }
