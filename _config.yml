@@ -14,9 +14,6 @@ minima:
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
-  - jekyll-paginate       # pagination on home
-paginate: 7               # posts per page
-paginate_path: "/blog/page:num/"
 markdown: kramdown
 highlighter: rouge
 rouge:
