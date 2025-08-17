@@ -1,1 +1,11 @@
-C:\Users\frent\gh-site\_config.yml
+title: "Frentzen"
+description: "Security notes and write-ups"
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+url: "https://frentzen.github.io"
+baseurl: ""
+permalink: /:year/:month/:day/:title/
+timezone: Asia/Dubai
+future: true
