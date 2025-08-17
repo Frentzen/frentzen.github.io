@@ -21,3 +21,6 @@ markdown: kramdown
 highlighter: rouge
 rouge:
   theme: github
+header_pages:
+  - about.md
+  - tags.md
