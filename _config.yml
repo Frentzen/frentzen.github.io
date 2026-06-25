@@ -11,6 +11,7 @@ baseurl: ""
 theme: minima
 markdown: kramdown
 permalink: /:year/:month/:day/:title/
+future: true   # build posts even if dated ahead of the server's UTC clock
 
 plugins:
   - jekyll-feed
