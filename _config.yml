@@ -1,27 +1,21 @@
-title: Frentzen's Security Notes
-description: Application security write-ups, CVE walkthroughs, and defensive engineering.
+title: "FRENTZEN"
+tagline: "AppSec × AI"
+description: "Application security write-ups, CVE walkthroughs, and AI-assisted defensive engineering, rendered in glorious 16-bit."
 author: Frentzen
 email: frentzenamaral@gmail.com
 
-# User site served at the domain root.
-# For a project repo named "blog", set baseurl: "/blog" and url accordingly.
 url: "https://frentzen.github.io"
 baseurl: ""
 
-theme: minima
-markdown: kramdown
 permalink: /:year/:month/:day/:title/
-future: true   # build posts even if dated ahead of the server's UTC clock
+future: true            # build posts even if dated ahead of the server clock
+markdown: kramdown
+highlighter: rouge
 
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
 
-minima:
-  social_links:
-    github: Frentzen
-
-# Exclude tooling files from the build.
 exclude:
   - Gemfile
   - Gemfile.lock

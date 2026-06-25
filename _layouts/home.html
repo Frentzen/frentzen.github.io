@@ -1,0 +1,26 @@
+---
+layout: default
+---
+<section class="hero">
+  <h1 class="title-glow">{{ site.title }}</h1>
+  <p class="tagline">&gt; {{ site.tagline }} <span class="blink">&#9646;</span></p>
+  <p class="sub">{{ site.description }}</p>
+</section>
+
+<section class="levels">
+  <h2 class="section-label">// TRANSMISSIONS</h2>
+  <ul class="post-list">
+    {% for post in site.posts %}
+    <li class="cartridge">
+      <a href="{{ post.url | relative_url }}">
+        <span class="date">{{ post.date | date: "%Y.%m.%d" }}</span>
+        <h3>{{ post.title }}</h3>
+        <p>{{ post.description | default: post.excerpt | strip_html | truncate: 180 }}</p>
+        <div class="tags">
+          {% for t in post.tags %}<span class="tag">{{ t }}</span>{% endfor %}
+        </div>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
