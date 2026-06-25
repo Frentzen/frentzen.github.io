@@ -3,4 +3,6 @@ layout: page
 title: About
 permalink: /about/
 ---
-Short bio here.
+
+Application security write-ups by Frentzen: CVE walkthroughs, exploit analysis, and
+defensive engineering notes. Everything here is for authorized testing and education.

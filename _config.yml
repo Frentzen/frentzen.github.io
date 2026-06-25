@@ -1,23 +1,28 @@
-title: "Frentzen"
-description: "Security notes & write-ups"
+title: Frentzen's Security Notes
+description: Application security write-ups, CVE walkthroughs, and defensive engineering.
+author: Frentzen
+email: frentzenamaral@gmail.com
+
+# User site served at the domain root.
+# For a project repo named "blog", set baseurl: "/blog" and url accordingly.
 url: "https://frentzen.github.io"
-baseurl: ""               # user site
+baseurl: ""
+
+theme: minima
+markdown: kramdown
 permalink: /:year/:month/:day/:title/
-timezone: Asia/Dubai
-show_excerpts: true       # home lists excerpts
-minima:
-  date_format: "%b %d, %Y"
-  social_links:
-    - { platform: github,  user_url: "https://github.com/frentzen" }
-    - { platform: x,       user_url: "https://x.com/FrentzenAmaral" }
-    - { platform: linkedin,user url: "https://www.linkedin.com/in/frentzen-amaral"}
+
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
-markdown: kramdown
-highlighter: rouge
-rouge:
-  theme: github
-header_pages:
-  - about.md
-  - tags.md
+
+minima:
+  social_links:
+    github: Frentzen
+
+# Exclude tooling files from the build.
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - .bundle
