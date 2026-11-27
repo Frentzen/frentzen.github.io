@@ -3,20 +3,15 @@ layout: default
 ---
 <section class="hero">
   <h1 class="title-glow">{{ site.title }}</h1>
-  <p class="tagline">&gt; {{ site.tagline }} <span class="blink">&#9646;</span></p>
-  <div class="hero-art">
-    <img src="{{ '/assets/img/shield.svg' | relative_url }}" alt="pixel shield — AppSec" width="96" height="96">
-    <span class="x">×</span>
-    <img src="{{ '/assets/img/chip.svg' | relative_url }}" alt="pixel chip — AI" width="96" height="96">
-  </div>
+  <p class="tagline">// {{ site.tagline }}</p>
   <p class="sub">{{ site.description }}</p>
 </section>
 
 <section class="levels">
-  <h2 class="section-label">// TRANSMISSIONS</h2>
+  <h2 class="section-label">Writing</h2>
   <ul class="post-list">
     {% for post in site.posts %}
-    <li class="cartridge">
+    <li>
       <a href="{{ post.url | relative_url }}">
         <span class="date">{{ post.date | date: "%Y.%m.%d" }}</span>
         <h3>{{ post.title }}</h3>
