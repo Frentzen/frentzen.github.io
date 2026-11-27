@@ -12,12 +12,12 @@ At **19:35 UTC**, an operator with a shell on a Kubernetes pod read its service-
 Here is the verdict it posted, exactly as it reached the channel:
 
 <div class="thread" role="img" aria-label="A Slack-style report card from the AIOps bot summarizing the investigation">
-  <div class="hd"><span class="ch">#sec-lab-vuln</span><span>· thread</span><span class="live"><i></i>auto-posted · read-only</span></div>
+  <div class="hd"><span class="ch">#sec-payments</span><span>· thread</span><span class="live"><i></i>auto-posted · read-only</span></div>
   <div class="msg">
     <div class="av">A</div>
     <div class="bd">
       <div class="nm">AIOps<span class="bot">APP</span><span class="t">20:00</span></div>
-      <p class="tx"><span class="verdict">True positive — but not the alert you think it is.</span> The <code>header_bypass</code> counter is a by-design lab signal; the genuinely malicious activity is in the React2Shell pod. The deployment was re-applied at 19:27 to turn on <code>automountServiceAccountToken</code>, handing the exploit a credential it would not otherwise have had. Token was read and decoded, then used for API discovery and enumeration of pods, secrets and namespaces <span class="tag-red">— all denied 403</span>. No NetworkPolicies exist; RBAC was the only control. Read-only investigation. Nothing was changed.</p>
+      <p class="tx"><span class="verdict">True positive — but not the alert you think it is.</span> The <code>header_bypass</code> counter is a by-design decoy signal; the genuinely malicious activity is in the <code>payments-api</code> pod. The deployment was re-applied at 19:27 to turn on <code>automountServiceAccountToken</code>, handing the exploit a credential it would not otherwise have had. Token was read and decoded, then used for API discovery and enumeration of pods, secrets and namespaces <span class="tag-red">— all denied 403</span>. No NetworkPolicies exist; RBAC was the only control. Read-only investigation. Nothing was changed.</p>
       <div>
         <span class="pill">triage: suspect_compromise=true</span>
         <span class="pill">sweep: 2 ReplicaSets diffed</span>
@@ -92,9 +92,9 @@ Routing is table-driven. An alert's `category` label picks a mode, and the names
 
 ```json
 "namespaces": {
-  "lab-vuln": { "k8sAgent": "lab-agent", "securityAgent": "lab-security-agent" }
+  "payments": { "k8sAgent": "platform-agent", "securityAgent": "secops-agent" }
 },
-"slackChannels": { "C0LABVULN": "lab-vuln" }
+"slackChannels": { "C0PAYMENTS": "payments" }
 ```
 
 Each agent returns a small structured verdict the workflow can parse. The handoff from triage to the deeper sweep turns on a single boolean.
@@ -139,7 +139,7 @@ Read access is scoped to exactly the namespaces an agent investigates, through t
 
 ```yaml
 kind: RoleBinding          # one namespace, built-in view role
-metadata: { name: aiops-view, namespace: lab-vuln }
+metadata: { name: aiops-view, namespace: payments }
 roleRef:  { kind: ClusterRole, name: view }
 subjects: [{ kind: ServiceAccount, name: kagent-tools-ro, namespace: kagent }]
 ```
@@ -148,7 +148,7 @@ This cuts both ways. It contains the attacker, whose compromised pod is boxed by
 
 ## The incident, in full
 
-The target namespace held two workloads. A deliberately weak login app whose only flaw is a header that skips the password check, and a Next.js app with a known remote-code-execution bug ([CVE-2025-55182](https://github.com/l4rm4nd/CVE-2025-55182), "React2Shell"). An operator attacked the second one by hand while the pipeline watched.
+The target namespace held two workloads. A deliberately weak login service (`customer-auth`) whose only flaw is a header that skips the password check, and the payments API (`payments-api`), a Next.js service carrying a known remote-code-execution bug ([CVE-2025-55182](https://github.com/l4rm4nd/CVE-2025-55182)). An operator attacked the second one by hand while the pipeline watched.
 
 ### The trigger fired on the decoy
 
@@ -159,18 +159,18 @@ Using the bypass raised a Prometheus counter, which fired on the login app. That
 ```yaml
 - alert: AuthHeaderBypassUsed
   expr: increase(app_auth_attempts_total{result="header_bypass"}[2m]) > 0
-  labels: { severity: critical, namespace: lab-vuln, category: security }
+  labels: { severity: critical, namespace: payments, category: security }
 ```
 
 ### Triage cleared the decoy, then found the real thing
 
-The triage agent read the login app's source from its ConfigMap, recognized the bypass as the documented, intended weakness, and confirmed the pod was unmodified with no path to code execution. Then it looked across the namespace and found the actual intrusion in the React2Shell pod: the service-account token being read and decoded, followed by API discovery, `SelfSubjectAccessReview` calls, and attempts to list pods, secrets and namespaces. Every escalation returned `403`. It set `suspect_compromise: true` and the workflow handed off.
+The triage agent read the login app's source from its ConfigMap, recognized the bypass as the documented, intended weakness, and confirmed the pod was unmodified with no path to code execution. Then it looked across the namespace and found the actual intrusion in the `payments-api` pod: the service-account token being read and decoded, followed by API discovery, `SelfSubjectAccessReview` calls, and attempts to list pods, secrets and namespaces. Every escalation returned `403`. It set `suspect_compromise: true` and the workflow handed off.
 
 ### The sweep found the setup step, and corrected the record
 
 The sweep agent diffed the target's two ReplicaSets and surfaced the turning point: `automountServiceAccountToken` had been switched on in a rollout about eight minutes before the exploit. That is the attacker's own preparation, handing the exploit a credential it otherwise would not have had.
 
-**react2shell-target · revision 1 → 2 (19:27:27Z)**
+**payments-api · revision 1 → 2 (19:27:27Z)**
 
 ```diff
 - automountServiceAccountToken: false
@@ -255,7 +255,7 @@ The dials you set per environment, and where this build lands today:
 
 **Which model, and the cost.** The agents run DeepSeek through an OpenAI-compatible endpoint. Tokens are cheap at this volume; latency is the price, not dollars. A measured cost-per-investigation is on the list, and a faster model would help both numbers.
 
-**What if no alert fires.** This loop is alert-driven, so it needs a signal. The React2Shell activity alone was silent until the decoy woke the pipeline. Two answers close the gap: an operator can mention the bot in a channel to launch the same read-only investigation on demand, and the same workflow runs fine on a schedule for a periodic sweep.
+**What if no alert fires.** This loop is alert-driven, so it needs a signal. The `payments-api` activity alone was silent until the decoy woke the pipeline. Two answers close the gap: an operator can mention the bot in a channel to launch the same read-only investigation on demand, and the same workflow runs fine on a schedule for a periodic sweep.
 
 ## Takeaways
 
@@ -277,5 +277,5 @@ The pieces are off the shelf. The contribution is the wiring: a way to point AI 
   <a href="https://spiffe.io">SPIFFE · workload identity</a>
   <a href="https://gvisor.dev">gVisor · user-space kernel</a>
   <a href="https://argoproj.github.io">Argo · Workflows &amp; Events</a>
-  <a href="https://github.com/l4rm4nd/CVE-2025-55182">CVE-2025-55182 · React2Shell</a>
+  <a href="https://github.com/l4rm4nd/CVE-2025-55182">CVE-2025-55182 · Next.js RSC RCE</a>
 </div>
