@@ -247,15 +247,6 @@ The dials you set per environment, and where this build lands today:
 | Model latency | 8–10 min per agent call; ~22 min end to end | Faster model, or tighter prompts that make fewer tool calls |
 | Shared Harness | Concurrent investigations collide on task-state | Serialize now; give each agent its own harness to scale out |
 | Alert dedup | Re-runs blocked by workflow name and repeat interval | Shorten retention in the lab; keep both as flood defense in prod |
-| Target containment | A loosened target lets a compromise move | Ship locked (no token, egress DNS-only); loosen on purpose only |
-
-### What a skeptic will ask
-
-**Prompt injection through logs.** The agents read attacker-controlled container logs and ConfigMaps, which is the real injection surface. The system prompts treat all tool output as untrusted data and forbid acting on instructions found inside it, and the read-only cage means the worst a successful injection achieves is a wrong verdict, never a write. Hardening that verdict against adversarial logs is the next thing to test properly; we have not stress-tested it yet.
-
-**Which model, and the cost.** The agents run DeepSeek through an OpenAI-compatible endpoint. Tokens are cheap at this volume; latency is the price, not dollars. A measured cost-per-investigation is on the list, and a faster model would help both numbers.
-
-**What if no alert fires.** This loop is alert-driven, so it needs a signal. The `payments-api` activity alone was silent until the decoy woke the pipeline. Two answers close the gap: an operator can mention the bot in a channel to launch the same read-only investigation on demand, and the same workflow runs fine on a schedule for a periodic sweep.
 
 ## Takeaways
 
